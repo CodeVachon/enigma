@@ -11,7 +11,8 @@
     "clean": "rm -fr dist",
     "build": "tsc --project tsconfig.build.json",
     "docs": "typedoc src/index.ts",
-    "serve-docs": "http-server ./docs"
+    "serve-docs": "http-server ./docs",
+    "serve-coverage": "http-server -p 8081 ./coverage/lcov-report"
   },
   "dependencies": {},
   "devDependencies": {
