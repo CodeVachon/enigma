@@ -4,9 +4,20 @@ import DiskC from "./disks/C";
 import DiskD from "./disks/D";
 import DiskE from "./disks/E";
 
-type Char = string;
-type IDisk = { [key: Char]: Char };
-type IAvailableDisks = Record<Char, IDisk>;
+/**
+ * A Single UTF8 Character used in the Enigma Disks
+ */
+export type EnigmaChar = string;
+
+/**
+ * A Single Enigma Disk Used to Map Enigma Characters
+ */
+export type EnigmaDisk = { [key: EnigmaChar]: EnigmaChar };
+
+/**
+ * Configured Enigma Disk used in cyphers
+ */
+export type EnigmaAvailableDisks = Record<EnigmaChar, EnigmaDisk>;
 
 /**
  * This value is expected to come from an Environment Variable
@@ -34,7 +45,7 @@ class Enigma {
     /**
      * Static Disks Setup by the System
      */
-    readonly availableDisks: IAvailableDisks = {
+    readonly availableDisks: EnigmaAvailableDisks = {
         A: DiskA,
         B: DiskB,
         C: DiskC,
@@ -45,7 +56,7 @@ class Enigma {
     /**
      * Transitional Disks Setup by the System
      */
-    private transitionalDisks: IAvailableDisks = {};
+    private transitionalDisks: EnigmaAvailableDisks = {};
 
     /**
      * Base Setup of the Enigma Encoder
@@ -177,7 +188,7 @@ class Enigma {
      * @param letter The Character Being Changed
      * @returns the encrypted Character
      */
-    throughDisk(disk: Char, letter: Char): Char {
+    throughDisk(disk: EnigmaChar, letter: EnigmaChar): EnigmaChar {
         const found = this.availableDisks[disk][letter];
         if (found !== undefined) {
             return found;
@@ -194,7 +205,12 @@ class Enigma {
      * @param letter  The Character Being Changed
      * @returns the encrypted Character
      */
-    betweenDisks(disk1: Char, disk2: Char, passedOffset: number, letter: Char): Char {
+    betweenDisks(
+        disk1: EnigmaChar,
+        disk2: EnigmaChar,
+        passedOffset: number,
+        letter: EnigmaChar
+    ): EnigmaChar {
         const offset = this.manageOffset(passedOffset);
         const diskKey = `${disk1}${disk2}${offset}`;
 
@@ -208,8 +224,8 @@ class Enigma {
             const offsetList = valueListBefore.splice(0, this.manageOffset(offset));
             const valueList = valueListBefore.concat(offsetList);
 
-            const tempDisk: IDisk = {};
-            const used: Char[] = [];
+            const tempDisk: EnigmaDisk = {};
+            const used: EnigmaChar[] = [];
 
             while (used.length <= Object.values(selectedDisk1).length) {
                 const newKey = keyList.filter((v) => !used.some((y) => y === v)).pop();
@@ -269,20 +285,20 @@ class Enigma {
          */
 
         for (let i = 0; i < value.length; i++) {
-            let input: Char = String(value[i]);
+            let input: EnigmaChar = String(value[i]);
 
             if (new RegExp("[a-zA-Z0-9]").test(input)) {
                 for (let j = 0; j < diskList.length; j++) {
                     const disk = diskList[j];
 
                     // Handle A, B, C
-                    input = this.throughDisk(disk as Char, input);
+                    input = this.throughDisk(disk as EnigmaChar, input);
 
                     // Handle AB, BC
                     if (disk !== lastDisk) {
                         input = this.betweenDisks(
-                            disk as Char,
-                            diskList[j + 1] as Char,
+                            disk as EnigmaChar,
+                            diskList[j + 1] as EnigmaChar,
                             indexes[j] + i,
                             input
                         );
@@ -290,19 +306,24 @@ class Enigma {
                 }
 
                 // Handle CC
-                input = this.betweenDisks(lastDisk as Char, lastDisk as Char, halfIndex + i, input);
+                input = this.betweenDisks(
+                    lastDisk as EnigmaChar,
+                    lastDisk as EnigmaChar,
+                    halfIndex + i,
+                    input
+                );
 
                 for (let j = 0; j < diskListReversed.length; j++) {
                     const disk = diskListReversed[j];
 
                     // Handle C, B, A
-                    input = this.throughDisk(disk as Char, input);
+                    input = this.throughDisk(disk as EnigmaChar, input);
 
                     // Handle BC, BA
                     if (disk !== lastDiskReversed) {
                         input = this.betweenDisks(
-                            diskListReversed[j + 1] as Char,
-                            disk as Char,
+                            diskListReversed[j + 1] as EnigmaChar,
+                            disk as EnigmaChar,
                             indexesReversed[j + 1] + i,
                             input
                         );

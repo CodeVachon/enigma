@@ -1,13 +1,17 @@
 {
-  "name": "enigma",
+  "name": "@codevachon/enigma",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "author": "Christopher Vachon <code@christophervachon.com>",
   "license": "MIT",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "addDisk": "ts-node ./src/disks/_generateDisk.ts"
+    "generateDisks": "ts-node ./src/disks/_generateDisk.ts",
+    "clean": "rm -fr dist",
+    "build": "tsc --project tsconfig.build.json",
+    "docs": "typedoc src/index.ts",
+    "serve-docs": "http-server ./docs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -26,6 +30,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "http-server": "^14.1.0",
     "jest": "^27.4.7",
     "jest-extended": "^1.2.0",
     "lorem-ipsum": "^2.0.4",
@@ -33,6 +38,8 @@
     "ts-jest": "^27.1.3",
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
+    "typedoc": "^0.22.11",
+    "typedoc-plugin-extras": "^2.2.3",
     "typescript": "^4.5.5"
   }
 }
