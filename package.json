@@ -8,9 +8,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "generateDisks": "ts-node ./src/disks/_generateDisk.ts",
-    "clean": "rm -fr dist",
-    "build": "tsc --project tsconfig.build.json",
-    "docs": "typedoc src/index.ts",
+    "clean": "rm -fr dist docs coverage",
+    "build": "yarn clean && tsc --project tsconfig.build.json",
+    "docs": "yarn clean && typedoc src/index.ts",
     "serve-docs": "http-server ./docs",
     "serve-coverage": "http-server -p 8081 ./coverage/lcov-report"
   },
