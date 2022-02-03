@@ -1,9 +1,22 @@
 {
   "name": "@codevachon/enigma",
-  "version": "1.0.0",
+  "description": "A Cypher Library based on the Enigma Machine",
+  "version": "1.1.0",
   "main": "./dist/index.js",
   "author": "Christopher Vachon <code@christophervachon.com>",
+  "keywords": [
+    "enigma",
+    "cypher"
+  ],
   "license": "MIT",
+  "homepage": "https://codevachon.github.io/enigma",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/npm/cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CodeVachon/enigma"
+  },
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
@@ -14,6 +27,9 @@
     "docs": "yarn clean && typedoc src/index.ts",
     "serve-docs": "yarn docs && http-server ./docs",
     "serve-coverage": "yarn test:coverage && http-server -p 8081 ./coverage/lcov-report"
+  },
+  "engines": {
+    "node": ">=14"
   },
   "dependencies": {},
   "devDependencies": {

@@ -4,6 +4,10 @@ A Cypher Library based on the Enigma Machine.
 
 Learn [More About The Enigma Machine](https://en.wikipedia.org/wiki/Enigma_machine)
 
+-   [GitHub](https://github.com/CodeVachon/enigma)
+-   [NPM](https://www.npmjs.com/package/@codevachon/enigma)
+-   [TypeDoc](https://codevachon.github.io/enigma/)
+
 ## What is Does
 
 Using the `encode` method of this module will `base64` encode the provided string and cycles it through the configured disks and wire maps effectively encrypting the provided string.

@@ -33,7 +33,7 @@ export type EnigmaConfigurationString = string;
 /**
  * **Enigma String Cypher**
  *
- * > **DO NOT USE THIS FOR PASSWORDs**
+ * > **DO NOT USE THIS FOR PASSWORDS**
  *
  * Used to Encode Strings that can be decoded later with another exactly configured Enigma Instance.
  *
