@@ -1,0 +1,57 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@codevachon/enigma - v1.0.0</title><meta name="description" content="Documentation for @codevachon/enigma - v1.0.0"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">CodeVachon/Enigma</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>@codevachon/enigma - v1.0.0</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#enigma" id="enigma" style="color: inherit; text-decoration: none;">
+  <h1>Enigma</h1>
+</a>
+<p>A Cypher Library based on the Enigma Machine.</p>
+<p>Learn <a href="https://en.wikipedia.org/wiki/Enigma_machine">More About The Enigma Machine</a></p>
+
+<a href="#what-is-does" id="what-is-does" style="color: inherit; text-decoration: none;">
+  <h2>What is Does</h2>
+</a>
+<p>Using the <code>encode</code> method of this module will <code>base64</code> encode the provided string and cycles it through the configured disks and wire maps effectively encrypting the provided string.</p>
+<p>That same string can then be passed into the <code>decode</code> method which will run the string back through the configured disks restoring the original <code>base64</code> encoded string which is then decoded and returned to the original provided string.</p>
+<p>Each character passed into <code>translate</code> is transformed through a set of functions which change configuration on every character passed in.</p>
+<pre><code><span class="hl-0">Letter</span><span class="hl-1"> -&gt; [</span><span class="hl-0">WireMap</span><span class="hl-1">] -&gt; [</span><span class="hl-2">A</span><span class="hl-1">] -&gt; [</span><span class="hl-2">AB</span><span class="hl-1">[</span><span class="hl-0">i</span><span class="hl-1">]] -&gt; [</span><span class="hl-2">B</span><span class="hl-1">] -&gt; [</span><span class="hl-2">BC</span><span class="hl-1">[</span><span class="hl-0">i</span><span class="hl-1">]] -&gt; [</span><span class="hl-2">C</span><span class="hl-1">]</span><br/><span class="hl-1">                                                            |</span><br/><span class="hl-1">                                                        [</span><span class="hl-2">CC</span><span class="hl-1">[</span><span class="hl-3">0.5</span><span class="hl-1">]]</span><br/><span class="hl-1">                                                            |</span><br/><span class="hl-0">Result</span><span class="hl-1"> &lt;- [</span><span class="hl-0">WireMap</span><span class="hl-1">] &lt;- [</span><span class="hl-2">A</span><span class="hl-1">] &lt;- [</span><span class="hl-2">AB</span><span class="hl-1">[</span><span class="hl-0">i</span><span class="hl-1">]] &lt;- [</span><span class="hl-2">B</span><span class="hl-1">] &lt;- [</span><span class="hl-2">BC</span><span class="hl-1">[</span><span class="hl-0">i</span><span class="hl-1">]] &lt;- [</span><span class="hl-2">C</span><span class="hl-1">]</span>
+</code></pre>
+<p>Every time a character is cycled through the disks increased the value of <code>i</code> by 1. A Generated disk mapping is created by meshing the disks on either side where one of the disks characters is rotated by the index which creates a new path between each disk on every character.</p>
+<p>Because each character passed into <code>translate</code> is changed 11 to 13 times depending on if the resulting character matches a value in the wire map, and each character goes through a different map, the resulting string becomes difficult to decipher without knowing all of the potential path ways.</p>
+<p>This also means the the string <code>Hello</code> could potentially become <code>uEk4k</code>.</p>
+<blockquote>
+<p><strong>IMPORTANT</strong></p>
+<p>an Encoded String can <strong>ONLY</strong> be decoded by the exact same configuration. Therefor it is recommended that configuration for the instance be provided.</p>
+</blockquote>
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2>Usage</h2>
+</a>
+<pre><code class="language-ts"><span class="hl-4">import</span><span class="hl-1"> { </span><span class="hl-0">Enigma</span><span class="hl-1"> } </span><span class="hl-4">from</span><span class="hl-1"> </span><span class="hl-5">&quot;@codevachon/enigma&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-2">EnigmaConfig</span><span class="hl-1"> = </span><span class="hl-5">&quot;A32,E12,C44,fD,rs,Rv&quot;</span><span class="hl-1">;</span><br/><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-2">myString</span><span class="hl-1"> = </span><span class="hl-5">&quot;Lorem Ipsum&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-2">encoded</span><span class="hl-1"> = </span><span class="hl-6">new</span><span class="hl-1"> </span><span class="hl-7">Enigma</span><span class="hl-1">(</span><span class="hl-0">EnigmaConfig</span><span class="hl-1">).</span><span class="hl-7">encode</span><span class="hl-1">(</span><span class="hl-0">myString</span><span class="hl-1">);</span><br/><span class="hl-8">// -&gt; k5lPsgjA8sIpyKp=</span><br/><br/><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-2">decoded</span><span class="hl-1"> = </span><span class="hl-6">new</span><span class="hl-1"> </span><span class="hl-7">Enigma</span><span class="hl-1">(</span><span class="hl-0">EnigmaConfig</span><span class="hl-1">).</span><span class="hl-7">decode</span><span class="hl-1">(</span><span class="hl-0">encoded</span><span class="hl-1">);</span><br/><span class="hl-8">// -&gt; Lorem Ipsum</span>
+</code></pre>
+
+<a href="#configuration" id="configuration" style="color: inherit; text-decoration: none;">
+  <h2>Configuration</h2>
+</a>
+<p>The configuration string is designed to be passed in directly from an environment file. It is a comma separated value list where each value represents a &quot;Disk&quot; configuration or a &quot;Wire Mapping&quot;.</p>
+
+<a href="#disk-configuration" id="disk-configuration" style="color: inherit; text-decoration: none;">
+  <h3>Disk Configuration</h3>
+</a>
+<blockquote>
+<p><strong>Example</strong>: <code>A34</code></p>
+</blockquote>
+<p>This value represents a Disk inserted into the Enigma Machine and its starting index from <code>0</code>.</p>
+<p>Disks are labelled <code>A</code> through <code>E</code> and contain wire mappings for characters <code>A</code> through <code>Z</code>, <code>a</code> through <code>z</code> and <code>0</code> through <code>9</code>.</p>
+
+<a href="#wire-mapping" id="wire-mapping" style="color: inherit; text-decoration: none;">
+  <h3>Wire Mapping</h3>
+</a>
+<blockquote>
+<p><strong>Example</strong>: <code>hT</code></p>
+</blockquote>
+<p>This value represents a wire being connected from the first letter to the second letter. As such, each letter can only be used once when configuring the enigma machine. Using values <code>hT</code> and <code>lY</code> as an example: passing the string &quot;hello&quot; through the wire map would produce <code>TeYYo</code> and passing &quot;TeYYo&quot; back through would produce &quot;hello&quot;.</p>
+<p>Wire Mappings are only done between characters <code>A</code> through <code>Z</code> and <code>a</code> through <code>z</code></p>
+
+<a href="#unmatched-characters" id="unmatched-characters" style="color: inherit; text-decoration: none;">
+  <h3>Unmatched Characters</h3>
+</a>
+<p>Characters that are unmatched through the system are simply passed through the system unchanged.</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-reference"><a href="modules.html#default" class="tsd-kind-icon">default</a></li><li class="tsd-kind-class"><a href="classes/Enigma.html" class="tsd-kind-icon">Enigma</a></li><li class="tsd-kind-type-alias"><a href="modules.html#EnigmaAvailableDisks" class="tsd-kind-icon">Enigma<wbr/>Available<wbr/>Disks</a></li><li class="tsd-kind-type-alias"><a href="modules.html#EnigmaChar" class="tsd-kind-icon">Enigma<wbr/>Char</a></li><li class="tsd-kind-type-alias"><a href="modules.html#EnigmaConfigurationString" class="tsd-kind-icon">Enigma<wbr/>Configuration<wbr/>String</a></li><li class="tsd-kind-type-alias"><a href="modules.html#EnigmaDisk" class="tsd-kind-icon">Enigma<wbr/>Disk</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>

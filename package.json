@@ -7,12 +7,13 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "generateDisks": "ts-node ./src/disks/_generateDisk.ts",
     "clean": "rm -fr dist docs coverage",
     "build": "yarn clean && tsc --project tsconfig.build.json",
     "docs": "yarn clean && typedoc src/index.ts",
-    "serve-docs": "http-server ./docs",
-    "serve-coverage": "http-server -p 8081 ./coverage/lcov-report"
+    "serve-docs": "yarn docs && http-server ./docs",
+    "serve-coverage": "yarn test:coverage && http-server -p 8081 ./coverage/lcov-report"
   },
   "dependencies": {},
   "devDependencies": {

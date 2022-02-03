@@ -73,7 +73,7 @@ const selectRandom = <T = string>(list: T[], exclude?: T | T[]): T => {
 type KeyOfDisk = keyof typeof DiskA;
 
 describe("Enigma", () => {
-    const testIterations: number = 1;
+    const testIterations: number = 50;
     const diskNames = Object.keys(new Enigma().availableDisks);
     const diskKeys: KeyOfDisk[] = Object.keys(DiskA) as KeyOfDisk[];
 
@@ -364,6 +364,28 @@ describe("Enigma", () => {
 
                 expect(result2).toBe(result1);
             });
+
+            test("returns a different string when setup is different", () => {
+                const value = "Hello World";
+
+                const result1 = new Enigma(
+                    ["A12", "E43", "B27", "FC", "cS", "yW", "kA", "iJ"].join()
+                ).encode(value);
+
+                expect(result1).toBeString();
+                expect(result1.length).toBeGreaterThan(0);
+                expect(result1).not.toBe(value);
+
+                const result2 = new Enigma(
+                    ["D15", "E43", "B17", "FD", "zS", "yW", "hA", "iJ"].join()
+                ).encode(value);
+
+                expect(result2).toBeString();
+                expect(result2.length).toBeGreaterThan(0);
+                expect(result2).not.toBe(value);
+
+                expect(result2).not.toBe(result1);
+            });
         });
 
         describe("decode", () => {
@@ -381,10 +403,34 @@ describe("Enigma", () => {
                 expect(result.length).toBeGreaterThan(0);
                 expect(result).toEqual(testInput);
             });
+
+            test("fails to properly decode string when setup is different", () => {
+                const result = new Enigma(
+                    ["C15", "E43", "B17", "FD", "zS", "yW", "hA", "iJ"].join()
+                ).decode(encodedTestString);
+
+                expect(result).toBeString();
+                expect(result.length).toBeGreaterThan(0);
+                expect(result).not.toBe(encodedTestString);
+                expect(result).not.toBe(testInput);
+            });
         });
     });
 
     describe("Use Case", () => {
+        describe("Read Me Test", () => {
+            test("encodes and decodes", () => {
+                const EnigmaConfig = "A32,E12,C44,fD,rs,Rv";
+                const myString = "Lorem Ipsum";
+
+                const encoded = new Enigma(EnigmaConfig).encode(myString);
+                expect(encoded).not.toEqual(myString);
+
+                const decoded = new Enigma(EnigmaConfig).decode(encoded);
+                expect(decoded).toEqual(myString);
+            });
+        });
+
         for (let i = 1; i <= 3; i++) {
             describe(`Large Text Block run ${i}`, () => {
                 const testInput = lorem.generateParagraphs(randomInt(5, 10));

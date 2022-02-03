@@ -1,0 +1,16 @@
+.eslintignore
+.eslintrc.json
+.gitignore
+.npmignore
+.nvmrc
+.vscode
+coverage
+docs
+global.d.ts
+jest.config.js
+node_modules
+prettier.config.js
+src
+tsconfig.build.json
+tsconfig.json
+yarn.lock
