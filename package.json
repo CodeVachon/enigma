@@ -1,7 +1,7 @@
 {
   "name": "@codevachon/enigma",
   "description": "A Cypher Library based on the Enigma Machine",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "./dist/index.js",
   "author": "Christopher Vachon <code@christophervachon.com>",
   "keywords": [
@@ -12,10 +12,10 @@
   "homepage": "https://codevachon.github.io/enigma",
   "repository": {
     "type": "git",
-    "url": "https://github.com/npm/cli.git"
+    "url": "git@github.com:CodeVachon/enigma.git"
   },
   "bugs": {
-    "url": "https://github.com/CodeVachon/enigma"
+    "url": "https://github.com/CodeVachon/enigma/issues"
   },
   "scripts": {
     "test": "jest",
