@@ -29,7 +29,7 @@
     "serve-coverage": "yarn test:coverage && http-server -p 8081 ./coverage/lcov-report"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "dependencies": {},
   "devDependencies": {
